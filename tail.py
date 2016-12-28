@@ -1,4 +1,5 @@
 with open("test.txt") as f:
-    lines = f.readlines()
-    for line in lines:
+    line = f.readline()
+    while line:
         print line
+        line = f.readline()
