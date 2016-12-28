@@ -4,9 +4,11 @@ import time
 
 class Tail():
     def __init__(self, file_name):
-        self.file_name = file_name
+        self.file_name = sys.argv[1]
 
     def follow(self, n=10):
+        if  len(sys.argv)==3 and int(sys.argv[2])>0:
+            n = int(sys.argv[2])
         try:
             with open(self.file_name) as f:
                 self._file = f
@@ -47,5 +49,5 @@ class Tail():
             print e
 
 if __name__=='__main__':
-    py_tail = Tail('test.txt')
+    py_tail = Tail('est.txt')
     py_tail.follow()
