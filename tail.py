@@ -7,23 +7,21 @@ class Tail():
         self.file_name = sys.argv[1]
 
     def follow(self, n=10):
-        if  len(sys.argv)==3 and int(sys.argv[2])>0:
+        if  len(sys.argv) == 3 and int(sys.argv[2]) > 0:
             n = int(sys.argv[2])
         try:
-            with open(self.file_name) as f:
+            with open(self.file_name) as self._file:
                 while True:
-                    self._file = f
-                    self._file.seek(0,2)
+                    self._file.seek(0, 2)
                     self.file_length = self._file.tell()
-                    lines = n
-                    BLOCK_SIZE =1024
+                    BLOCK_SIZE = 1024
                     totail_line_wanted = n
                     newline_character_num = n+1
                     block_number = -1
                     blocks = []
                     block_end_byte = self.file_length
                     print self.file_length
-                    while newline_character_num  >0 and block_end_byte > 0:
+                    while (newline_character_num > 0) and (block_end_byte > 0):
                         if (block_end_byte - BLOCK_SIZE > 0):
                             #print '-------'
                             #print newline_character_num
@@ -37,19 +35,19 @@ class Tail():
                             #print block_end_byte
                             #print '----------'
                             #print '\n'
-                            self._file.seek(0,0)
+                            self._file.seek(0, 0)
                             blocks.append(self._file.read(block_end_byte))
                         lines_found = blocks[-1].count('\n')
                         newline_character_num -= lines_found
                         block_end_byte -= BLOCK_SIZE
-                        block_number -=1
-                    all_read_text =''.join(reversed(blocks))
+                        block_number -= 1
+                    all_read_text = ''.join(reversed(blocks))
                     print  '\n'.join(all_read_text.splitlines()[-totail_line_wanted:])
                     time.sleep(1)
-        except Exception ,e:
+        except Exception, e:
             print "Error"
             print e
 
-if __name__=='__main__':
+if __name__ == '__main__':
     py_tail = Tail('est.txt')
     py_tail.follow()
