@@ -1,6 +1,7 @@
 # coding=utf-8
 import sys
 import time
+import signal
 
 class Tail():
     def __init__(self, file_name, callback=sys.stdout.write):
@@ -40,6 +41,11 @@ class Tail():
             print "Error"
             print e
 
+def handle_int(sig,frame):
+    #print "I quit"
+    sys.exit(0)
+
 if __name__ == '__main__':
+    signal.signal(2, handle_int)
     py_tail = Tail('est.txt')
     py_tail.follow()
