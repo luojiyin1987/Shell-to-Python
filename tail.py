@@ -10,8 +10,8 @@ class Tail():
         if  len(sys.argv) == 3 and int(sys.argv[2]) > 0:
             n = int(sys.argv[2])
         try:
-            with open(self.file_name) as self._file:
-                while True:
+            while True:
+                with open(self.file_name) as self._file:
                     self._file.seek(0, 2)
                     self.file_length = self._file.tell()
                     BLOCK_SIZE = 1024
@@ -20,21 +20,12 @@ class Tail():
                     block_number = -1
                     blocks = []
                     block_end_byte = self.file_length
-                    print self.file_length
+                    #print self.file_length
                     while (newline_character_num > 0) and (block_end_byte > 0):
                         if (block_end_byte - BLOCK_SIZE > 0):
-                            #print '-------'
-                            #print newline_character_num
-                            #print block_end_byte
-                            #print '-------'
-                            #print '\n'
                             self._file.seek(block_number * BLOCK_SIZE, 2)
                             blocks.append(self._file.read(BLOCK_SIZE))
                         else:
-                            #print '------else'
-                            #print block_end_byte
-                            #print '----------'
-                            #print '\n'
                             self._file.seek(0, 0)
                             blocks.append(self._file.read(block_end_byte))
                         lines_found = blocks[-1].count('\n')
@@ -42,10 +33,7 @@ class Tail():
                         block_end_byte -= BLOCK_SIZE
                         block_number -= 1
                     all_read_text = ''.join(reversed(blocks))
-                    temp = '\n'.join(all_read_text.splitlines()[-totail_line_wanted:]) #don't use temp will loss some character of the end
-                    print temp
-                    print '--------------------'
-                    self.callback(temp)
+                    self.callback( '\n'.join(all_read_text.splitlines()[-totail_line_wanted:])) 
                     print '\n'
                     time.sleep(1)
         except Exception, e:
