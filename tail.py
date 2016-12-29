@@ -3,9 +3,9 @@ import sys
 import time
 
 class Tail():
-    def __init__(self, file_name):
+    def __init__(self, file_name, callback=sys.stdout.write):
         self.file_name = sys.argv[1]
-
+        self.callback = callback
     def follow(self, n=10):
         if  len(sys.argv) == 3 and int(sys.argv[2]) > 0:
             n = int(sys.argv[2])
@@ -42,7 +42,11 @@ class Tail():
                         block_end_byte -= BLOCK_SIZE
                         block_number -= 1
                     all_read_text = ''.join(reversed(blocks))
-                    print  '\n'.join(all_read_text.splitlines()[-totail_line_wanted:])
+                    temp = '\n'.join(all_read_text.splitlines()[-totail_line_wanted:]) #don't use temp will loss some character of the end
+                    print temp
+                    print '--------------------'
+                    self.callback(temp)
+                    print '\n'
                     time.sleep(1)
         except Exception, e:
             print "Error"
